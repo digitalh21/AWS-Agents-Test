@@ -1,0 +1,414 @@
+@import "tailwindcss";
+
+/* NOTE: plain @theme (NOT inline) so color utilities reference CSS variables.
+   data-theme palettes below remap the entire app at runtime.
+   `--color-white` is intentionally left UNTOUCHED so text-white buttons and
+   translucent overlays keep working; white SURFACES are themed via the class
+   overrides at the bottom of this file. */
+@theme {
+  --color-background: hsl(210 40% 98%);
+  --color-foreground: hsl(222 47% 11%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222 47% 11%);
+  --color-muted: hsl(210 40% 96%);
+  --color-muted-foreground: hsl(215 16% 47%);
+  --color-primary: hsl(221 83% 53%);
+  --color-primary-foreground: hsl(210 40% 98%);
+  --color-secondary: hsl(210 40% 96%);
+  --color-secondary-foreground: hsl(222 47% 11%);
+  --color-accent: hsl(210 40% 94%);
+  --color-accent-foreground: hsl(222 47% 11%);
+  --color-destructive: hsl(0 72% 51%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-success: hsl(152 69% 31%);
+  --color-border: hsl(214 32% 91%);
+  --color-input: hsl(214 32% 91%);
+  --color-ring: hsl(221 83% 53%);
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html,
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.thin-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: hsl(214 20% 80%);
+  border-radius: 999px;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.animate-sheet {
+  animation: sheet-up 0.22s ease-out;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+.live-dot {
+  animation: pulse-ring 1.8s infinite;
+}
+
+/* ================================================================== */
+/* DARK MODE — "Sleek dark theme"                                     */
+/* ================================================================== */
+[data-theme="dark"] {
+  --color-background: #070c12;
+  --color-foreground: #e6edf5;
+  --color-card: #101720;
+  --color-card-foreground: #e6edf5;
+  --color-muted: #16202b;
+  --color-muted-foreground: #8ea6bd;
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #16202b;
+  --color-secondary-foreground: #e6edf5;
+  --color-accent: #16202b;
+  --color-accent-foreground: #e6edf5;
+  --color-destructive: #f43f5e;
+  --color-destructive-foreground: #ffffff;
+  --color-success: #34d399;
+  --color-border: #1e2a38;
+  --color-input: #24313f;
+  --color-ring: #60a5fa;
+
+  /* neutral scale (slate-950 stays DARK for modal scrims) */
+  --color-slate-50: #0b1118;
+  --color-slate-100: #101820;
+  --color-slate-200: #1c2836;
+  --color-slate-300: #2b3a4d;
+  --color-slate-400: #47586d;
+  --color-slate-500: #66809a;
+  --color-slate-600: #8ea6bd;
+  --color-slate-700: #b7c8d8;
+  --color-slate-800: #d8e2ec;
+  --color-slate-900: #ecf2f8;
+  --color-slate-950: #05090e;
+
+  /* brand blues: dark tints for chip surfaces, mid tones for buttons/text */
+  --color-blue-50: #0d1a2c;
+  --color-blue-100: #122741;
+  --color-blue-200: #1c3a5e;
+  --color-blue-300: #2b5280;
+  --color-blue-400: #60a8fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #3b82f6;
+  --color-blue-800: #93c5fd;
+  --color-blue-900: #dbeafe;
+
+  --color-emerald-50: #0a1f16;
+  --color-emerald-100: #0f2f21;
+  --color-emerald-200: #174e37;
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #10b981;
+  --color-emerald-700: #34d399;
+  --color-emerald-800: #6ee7b7;
+  --color-emerald-900: #a7f3d0;
+
+  --color-amber-50: #241a06;
+  --color-amber-100: #33260a;
+  --color-amber-200: #4a3510;
+  --color-amber-300: #6b4e18;
+  --color-amber-400: #f59e0b;
+  --color-amber-600: #f59e0b;
+  --color-amber-700: #fbbf24;
+  --color-amber-800: #fde68a;
+  --color-amber-900: #fde68a;
+  --color-amber-950: #171102;
+
+  --color-orange-50: #26130a;
+  --color-orange-100: #33190d;
+  --color-orange-500: #f97316;
+  --color-orange-600: #f97316;
+  --color-orange-700: #fb923c;
+
+  --color-rose-50: #2a0d12;
+  --color-rose-100: #39131a;
+  --color-rose-200: #4c1d24;
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #f43f5e;
+  --color-rose-700: #fb7185;
+  --color-rose-800: #fda4af;
+  --color-rose-900: #881337;
+
+  --color-violet-50: #1a1030;
+  --color-violet-100: #221543;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #8b5cf6;
+  --color-violet-700: #c4b5fd;
+
+  --color-teal-600: #14b8a6;
+  --color-indigo-700: #6366f1;
+
+  --color-zinc-50: #121a23;
+  --color-zinc-100: #1a222c;
+  --color-zinc-300: #37414d;
+  --color-zinc-600: #a1aab7;
+
+  --color-stone-100: #1e2328;
+  --color-stone-300: #44403c;
+  --color-stone-600: #a8a29e;
+}
+
+/* white SURFACES -> dark surfaces (text-white untouched). Unlayered wins. */
+[data-theme="dark"] .bg-white {
+  background-color: #101720;
+}
+[data-theme="dark"] .bg-white\/95 {
+  background-color: color-mix(in oklab, #101720 95%, transparent);
+}
+[data-theme="dark"] .bg-white\/70 {
+  background-color: color-mix(in oklab, #101720 70%, transparent);
+}
+[data-theme="dark"] .hover\:bg-white:hover {
+  background-color: #101720;
+}
+[data-theme="dark"] .dark-surface-deep {
+  background-color: #0b1118;
+}
+[data-theme="dark"] body {
+  color-scheme: dark;
+}
+[data-theme="dark"] .thin-scroll::-webkit-scrollbar-thumb {
+  background: #2b3a4d;
+}
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  color-scheme: dark;
+}
+[data-theme="dark"] img,
+[data-theme="dark"] video {
+  opacity: 0.96;
+}
+
+/* ================================================================== */
+/* GROWN MODE — earth-tone neutral theme                              */
+/* ================================================================== */
+[data-theme="grown"] {
+  --color-background: #efe9db;
+  --color-foreground: #3a3529;
+  --color-card: #fbf8f1;
+  --color-card-foreground: #3a3529;
+  --color-muted: #ece5d5;
+  --color-muted-foreground: #736c5c;
+  --color-primary: #57682f;
+  --color-primary-foreground: #f5f1e4;
+  --color-secondary: #ece5d5;
+  --color-secondary-foreground: #3a3529;
+  --color-accent: #ece5d5;
+  --color-accent-foreground: #3a3529;
+  --color-border: #ddd3bc;
+  --color-input: #cabc9c;
+  --color-ring: #798a45;
+
+  --color-slate-50: #f4efe4;
+  --color-slate-100: #ece5d5;
+  --color-slate-200: #ddd3bc;
+  --color-slate-300: #c6b899;
+  --color-slate-400: #a39673;
+  --color-slate-500: #87795a;
+  --color-slate-600: #665c45;
+  --color-slate-700: #4d4636;
+  --color-slate-800: #3a3529;
+  --color-slate-900: #2b281f;
+  --color-slate-950: #1c1a14;
+
+  /* blue -> olive */
+  --color-blue-50: #eef0e3;
+  --color-blue-100: #e2e6cf;
+  --color-blue-200: #cfd6ae;
+  --color-blue-300: #b0bd85;
+  --color-blue-400: #8ba05c;
+  --color-blue-500: #798a45;
+  --color-blue-600: #687a38;
+  --color-blue-700: #57682f;
+  --color-blue-800: #465428;
+  --color-blue-900: #364020;
+
+  /* emerald -> moss */
+  --color-emerald-50: #e9efe1;
+  --color-emerald-100: #dae4cc;
+  --color-emerald-200: #c4d4ab;
+  --color-emerald-500: #6d8b4e;
+  --color-emerald-600: #5d7a3f;
+  --color-emerald-700: #4c6634;
+  --color-emerald-800: #3d522a;
+  --color-emerald-900: #314122;
+
+  /* amber -> ochre */
+  --color-amber-50: #f6eedd;
+  --color-amber-100: #efe2c6;
+  --color-amber-200: #e2cda0;
+  --color-amber-300: #d2b478;
+  --color-amber-400: #b98d3c;
+  --color-amber-600: #9c7228;
+  --color-amber-700: #80591f;
+  --color-amber-800: #5f4218;
+  --color-amber-900: #4a3412;
+  --color-amber-950: #2c1e0a;
+
+  /* orange -> clay */
+  --color-orange-50: #f4e8dc;
+  --color-orange-100: #ecd9c5;
+  --color-orange-500: #b97d46;
+  --color-orange-600: #a26634;
+  --color-orange-700: #83542a;
+
+  /* rose -> terracotta */
+  --color-rose-50: #f5e8e2;
+  --color-rose-100: #edd8cf;
+  --color-rose-200: #dec0b2;
+  --color-rose-500: #b3694f;
+  --color-rose-600: #a25a40;
+  --color-rose-700: #87492f;
+  --color-rose-800: #6f3a26;
+  --color-rose-900: #5c2f1f;
+
+  /* violet -> muted plum */
+  --color-violet-50: #efe9ec;
+  --color-violet-100: #e3d6de;
+  --color-violet-500: #8f6b84;
+  --color-violet-600: #7c5a71;
+  --color-violet-700: #66495d;
+
+  --color-teal-600: #5d7a68;
+  --color-indigo-700: #5d6b41;
+
+  --color-zinc-50: #f4f1e9;
+  --color-zinc-100: #e9e4d8;
+  --color-zinc-300: #cfc8b6;
+  --color-zinc-600: #736c5c;
+
+  --color-stone-100: #eae4d6;
+  --color-stone-300: #d0c6b2;
+  --color-stone-600: #756a57;
+}
+
+/* white SURFACES -> warm paper surfaces */
+[data-theme="grown"] .bg-white {
+  background-color: #fbf8f1;
+}
+[data-theme="grown"] .bg-white\/95 {
+  background-color: color-mix(in oklab, #fbf8f1 95%, transparent);
+}
+[data-theme="grown"] .bg-white\/70 {
+  background-color: color-mix(in oklab, #fbf8f1 70%, transparent);
+}
+[data-theme="grown"] .hover\:bg-white:hover {
+  background-color: #fbf8f1;
+}
+[data-theme="grown"] .thin-scroll::-webkit-scrollbar-thumb {
+  background: #c6b899;
+}
+
+/* matched typography: warm editorial serif for display headings */
+[data-theme="grown"] h1,
+[data-theme="grown"] h2 {
+  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  letter-spacing: -0.01em;
+}
+
+
+/* ================================================================== */
+/* Enterprise UI protection (PhonePe-style locked-down shell)          */
+/* ================================================================== */
+
+/* No text selection / callout anywhere by default… */
+html,
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* …but form fields MUST stay selectable/copyable — agents copy phone
+   numbers and paste proofs all day. */
+input,
+textarea,
+select,
+option,
+[contenteditable="true"],
+[data-allow-select="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+/* No native image dragging (banking-app feel). */
+img,
+video,
+canvas,
+svg {
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: auto;
+}
+
+/* Mobile: kill long-press callouts + double-tap zoom, keep scrolling. */
+@media (max-width: 1024px) {
+  html,
+  body {
+    -webkit-touch-callout: none;
+    touch-action: pan-y pinch-zoom;
+    overscroll-behavior-y: none;
+  }
+
+  button,
+  a,
+  [role="button"] {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* prevent the iOS magnifier on long press of non-editable content */
+  .ags-secure * {
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Subtle "secured" affordance used by the security guard. */
+[data-quota-locked="true"] body {
+  cursor: not-allowed;
+}
